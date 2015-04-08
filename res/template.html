@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+<!-- ###MESSAGE_MY_EVENTS### --><p>
+	###LABEL_MYEVENTS###
+</p>
+<!-- ###MESSAGE_MY_EVENTS### -->
+
+<!-- ###MESSAGE_MY_VIP_EVENTS### --><p>
+	###LABEL_MYVIPEVENTS###
+</p>
+<!-- ###MESSAGE_MY_VIP_EVENTS### -->
+
+<!-- ###MESSAGE_MY_ENTERED_EVENTS### --><p>
+	###LABEL_MYENTEREDEVENTS###
+</p>
+<!-- ###MESSAGE_MY_ENTERED_EVENTS### -->
+
+<!-- ###SCRIPT### -->
+<link rel="stylesheet" href="typo3conf/ext/df_seminarsfeajax/css/jquery.dataTables.css" type="text/css" />
+<link rel="stylesheet" href="typo3conf/ext/df_seminarsfeajax/css/chosen.min.css" type="text/css" />
+<script type="text/javascript" src="typo3conf/ext/df_seminarsfeajax/scripts/jquery.dataTables.js"></script>
+<script type="text/javascript" src="typo3conf/ext/df_seminarsfeajax/scripts/chosen.jquery.js"></script>
+
+<script type="text/javascript">
+var showTopCats=###SHOWTOPCATS###;
+	jQuery(document).ready(function(){
+		jQuery.fn.dataTableExt.oStdClasses.sStripeOdd="listrow-odd"; 					
+		var dt = jQuery('#calender').dataTable( {
+	        "bProcessing": true,	        
+	        "sAjaxSource": "index.php?id=###FE_ID###&no_cache=1&eID=tx_seminarsfeajax_actionController&seminartypes=###SEMINAR_TYPES######SEMINAR_CATEGORIES###",
+	        "bServerSide": true,        
+	        "sServerMethod": 'POST',
+	        "oLanguage": {
+         		"sSearch": "Suchen:",
+         		"sLengthMenu": "_MENU_ Einträge anzeigen",
+         		"sInfo": "Es werden Einträge _START_ bis _END_ von insgesamt _TOTAL_ angezeigt",
+         		"sInfoEmpty": "keine passenden Veranstaltungen gefunden",
+         		"sInfoFiltered":"(gefiltert von _MAX_  Einträgen)",
+         		"oPaginate":{
+         			"sPrevious" : "Vorherige",
+         			"sNext" : "Nächste"
+         			}
+       		},
+	        "fnServerParams": function ( aoData ) {
+	        	
+	        	aoData.push( { "name": "showconfirmedonly","value":###CONFIRMED-ONLY###} );
+	        	
+	        	
+	        	jQuery('#selector_widget_categories_select option:selected').each(function(){
+        		aoData.push( { "name": "category[]","value":jQuery(this).val()} );
+    			});	
+    			
+    			jQuery('#selector_widget_cities_select option:selected').each(function(){
+        		aoData.push( { "name": "cities[]","value":jQuery(this).val()} );
+    			});	
+    			
+    			jQuery('#selector_widget_months option:selected').each(function(){
+        		aoData.push( { "name": "month","value":jQuery(this).val()} );
+    			});	
+    			
+    			jQuery('#selector_widget_years option:selected').each(function(){
+        		aoData.push( { "name": "year","value":jQuery(this).val()} );
+    			});
+    				
+	        	if(showTopCats==1){
+	        		jQuery('#selector_widget_topics_select option:selected').each(function(){
+	        		aoData.push( { "name": "topics[]","value":jQuery(this).val()} );
+	    			});	
+	        	}
+		      
+		    }
+        });
+    	
+    	jQuery('#selectorWidget select').change(function(){
+    		dt.fnDraw();
+    	});
+    	
+    	if(showTopCats==1){
+    		//jQuery('#selector_widget_topics').show();
+    		jQuery('#selector_widget_topics select').chosen();
+    	}
+    	jQuery('#selector_widget_categories_select').chosen();
+    	jQuery('#selector_widget_cities_select').chosen();
+    	jQuery('#selector_widget_months').chosen({
+    		'placeholder_text_single':'Monat',
+		     	   	'disable_search':true,
+		     	   	'allow_single_deselect': true
+
+    	});
+    	jQuery('#selector_widget_years').chosen({
+    	'placeholder_text_single':'Jahr',
+		     	   	'disable_search':true,
+		     	   	'allow_single_deselect': true	
+    	});
+    	
+    	
+    	    	
+jQuery('.chzn-container-multi').css('width','200px');
+
+
+
+		     	   jQuery('.chzn-container-multi input.default').css('width','180px');
+		     	   jQuery('.chzn-container-single').css('width','125px');
+		     	   jQuery('#selector_widget_general_chzn').css({
+		     	   	width:'400px',
+		     	   	textAlign:'left'});
+		     	   jQuery('.chzn-container-single input.default').css('width','110px');
+
+
+	});
+	
+</script>
+<!-- ###SCRIPT### -->
+
+
+<!-- ###LIST_HEADER### -->
+###SELECTOR###
+<br>
+<div class="tx-seminars-pi1-listrow">
+	
+	<table id="calender" style="width:auto">
+		<thead>
+			<tr>
+
+ <th width="200" style="width:200px" scope="col">Titel
+<br /></th>
+	<th  width="260" style="width:260px" scope="col">Kurzbeschreibung</th>
+	<th width="100" style="width:100px" scope="col">Datum</th>
+	<th  width="80" style="width:80px" scope="col">Ort</th>
+	<th width="80" style="text-align:right" scope="col">Preis</th>
+
+			</tr>
+		</thead>
+		<tfoot>
+		<tr>
+			<th>Titel</th>
+			<th>Kurzbeschreibung</th>
+			<th>Datum</th>
+			<th>Ort</th>
+			<th>Preis</th>
+		</tr>
+	</tfoot>
+		</table>
+</div>
+<!-- ###LIST_HEADER### -->
+
+
+<!-- ###LIST_FOOTER### -->
+
+<script>
+
+				
+
+
+				
+
+				
+
+
+			</script>
+</div>
+</div>
+<!-- ###LIST_FOOTER### -->
+
+<!-- ###LIST_ITEMS### -->
+			<div class="itsm-event-item ###SELECTOR_CLASSES###">
+				<table style="width:auto">
+					<!-- ###LIST_ITEM### -->
+			<tr class="###CLASS_ITEMROW###">
+
+ <td width="200" style="width:200px" class="###CLASS_LISTTITLE###">###TITLE_LINK### ###CANCELLED###
+</td>
+
+
+<td width="260" style="width:260px" class="###CLASS_TEASER###">###TEASER###</td>
+ <td width="100" style="width:100px" class="###CLASS_LISTDATE###">###DATE###</td>
+ <td width="80" style="width:80px" class="###CLASS_LISTCITY###">###CITY###</td>
+  <td class="###CLASS_LISTPLACE###">###PLACE###</td>
+
+<td style="text-align:right" width="80" class="###CLASS_LISTPRICE_REGULAR###">###PRICE_REGULAR###</td>
+			</tr>
+			<!-- ###LIST_ITEM### -->
+			</table>
+			</div>
+
+
+
+<!-- ###LIST_ITEMS### -->
+
+<!-- ###ATTACHED_FILES_LIST_VIEW_ITEM### -->
+<ul>###ATTACHED_FILES_ITEMS###</ul>
+<!-- ###ATTACHED_FILES_LIST_VIEW_ITEM### -->
+
+<!-- ###ATTACHED_FILES_SINGLE_ITEM### -->
+<li>###ATTACHED_FILES_SINGLE_TITLE###</li>
+<!-- ###ATTACHED_FILES_SINGLE_ITEM### -->
+
+<!-- ###SELECTOR_WIDGET### -->
+
+<div id="selectorWidget">
+
+	<table>
+		<tr><td colspan="3" valign="top" align="left" width="400">
+			<div id="selector_widget_topics" style="display:none;margin-bottom:20px;display:none;">
+		<select id="selector_widget_topics_select" style="width:400px;display:none;" multiple="multiple" data-placeholder="Hauptkategorie auswählen">
+			<!-- ###TOPICS2### -->
+				
+				
+				<option value="###TOPIC-ID###">###TOPIC###</option>
+				
+				
+			<!-- ###TOPICS2### -->				
+		</select>
+
+
+
+	</div>
+		</td></tr>
+		<tr>
+			<td width="230" valign="top" style="vertical-align:top">
+
+		<div id="selector_widget_categories">
+		<select id="selector_widget_categories_select" multiple="multiple" data-placeholder="Themengebiete auswählen">
+			<!-- ###TOPICS### -->
+				<optgroup label="###TOPIC###">
+				<!-- ###CATEGORIES### -->
+				<option value="###CATEGORY-ID###">###CATEGORY###</option>
+				<!-- ###CATEGORIES### -->
+				</optgroup>
+			<!-- ###TOPICS### -->				
+		</select>
+
+
+
+	</div>
+			</td>
+			<td width="230"  valign="top" style="vertical-align:top">
+		<div id="selector_widget_cities">
+		<select id="selector_widget_cities_select" data-placeholder="Ort auswählen" multiple="multiple">
+			<!-- ###CITIES### -->
+			<option value="###CITY-ID###">###CITY###</option>
+			<!-- ###CITIES### -->
+		</select>
+
+		
+	</div>
+
+			</td>
+			<td width="280" valign="top" style="vertical-align:top">
+			<div id="selector_widget_time">
+		<select id="selector_widget_months">
+			<option val="" selected="selected"> </option>
+			<option value="0">&nbsp;</option>
+			<option value="1">Januar</option>
+			<option value="2">Februar</option>
+			<option value="3">März</option>
+			<option value="4">April</option>
+			<option value="5">Mai</option>
+			<option value="6">Juni</option>
+			<option value="7">Juli</option>
+			<option value="8">August</option>
+			<option value="9">September</option>
+			<option value="10">Oktober</option>
+			<option value="11">November</option>
+			<option value="12">Dezember</option>
+		</select>
+		<select id="selector_widget_years">
+			<option val="" selected="selected"> </option>
+			<option value="0">&nbsp;</option>
+
+			<!-- ###YEARS###-->
+				<option value="###YEAR###">###YEAR###</option>
+			<!-- ###YEARS###-->
+		</select>
+	</div>
+			</td>
+		</tr>
+
+	</table>
+
+
+
+
+
+
+
+</div>
+
+<!-- ###SELECTOR_WIDGET### -->
+
+
+<!-- ###OPTIONS_BOX### -->
+		<label for="###OPTIONBOX_ID###">###OPTIONS_HEADER###</label><br />
+		<select name="###OPTIONBOX_NAME###" id="###OPTIONBOX_ID###" size="5" multiple="multiple">
+			###OPTIONS###
+		</select>
+<!-- ###OPTIONS_BOX### -->
+
+<!-- ###SINGLE_DROPDOWN### -->
+		<select name="###DROPDOWN_NAME###" id="###DROPDOWN_ID###" size="1">
+			###DROPDOWN_OPTIONS###
+		</select>
+<!-- ###SINGLE_DROPDOWN### -->
+
+<!-- ###OPTIONS_ENTRY### -->
+			<option value="###OPTION_VALUE###"###OPTION_SELECTED###>###OPTION_LABEL###</option>
+<!-- ###OPTIONS_ENTRY### -->
+
+
+<!-- ###COUNTDOWN### -->
+<p>###COUNT_DOWN_MESSAGE###</p>
+<!-- ###COUNTDOWN### -->
+
+
+<!-- ###SINGLE_VIEW###  -->
+<div class="seminars_columnwrap">
+
+ <div style="text-align:right">
+
+
+		<!-- ###FIELD_WRAPPER_TITLE### -->
+	<h2 style="float:left;"
+		<!-- ###FIELD_WRAPPER_IMAGE### -->
+			###STYLE_SINGLEVIEWTITLE###
+		<!-- ###FIELD_WRAPPER_IMAGE### -->
+	>
+	<!-- ###FIELD_WRAPPER_EVENT_TYPE### -->
+
+	<!-- ###FIELD_WRAPPER_EVENT_TYPE### -->
+	###TITLE###</h2>
+
+<!-- ###FIELD_WRAPPER_TITLE### -->
+
+		<span class="seminars_anmelden" style="display:inline-block;text-align:left;float:right">###REGISTRATION###</span>
+		<div class="clearfix"></div>
+</div>
+
+
+
+
+
+<div class="">
+
+<div class="columns_block_seminar clearfix">
+      	<div class="col_block clearfix">
+
+            <h3>Zeit und Ort</h3>
+
+            <table>
+
+            	<tr>
+            		<td><strong>###LABEL_DATE###: </strong></td>
+            		<td width="10"></td>
+            		<td>###DATE###</td>
+            	</tr>
+            	<tr>
+            		<td colspan="3" height="5"></td>
+            	</tr>
+
+            	<!-- ###FIELD_WRAPPER_PLACE### -->
+            	<tr>
+            		<td valign="top"><strong>###LABEL_PLACE###:</strong></td>
+            		<td width="10"></td>
+            		<td id="place_cell">###PLACE###</td>
+            	</tr>
+            	<!-- ###FIELD_WRAPPER_PLACE### -->
+				<tr>
+            		<td valign="top"><strong>Status:</strong></td>
+            		<td width="10"></td>
+					<td valign="top" colspan="3">###CANCELLED###</td>
+
+            	</tr>
+
+            </table>
+
+
+</div>
+
+
+
+
+<!-- ###FIELD_WRAPPER_ROOM### --><p><strong>###LABEL_ROOM###</strong></p>
+<p>###ROOM###</p>
+
+<!-- ###FIELD_WRAPPER_ROOM### -->
+
+<!-- ###FIELD_WRAPPER_EXPIRY### --><h3>###LABEL_EXPIRY###</h3>
+<p>###EXPIRY###</p>
+
+<!-- ###FIELD_WRAPPER_EXPIRY### -->
+
+
+
+
+
+
+		<!-- ###FIELD_WRAPPER_TIMESLOTS### -->
+        <div class="col_block clearfix" style="margin-right:55px">
+
+            <h3>###LABEL_TIMESLOTS###</h3>
+
+<table cellpadding="0" cellspacing="0" class="tx-seminars-pi1-timeslots" width="100%">
+	<thead>
+		<tr>
+			<th scope="col">###LABEL_TIMESLOT_DATE###</th>
+			<th scope="col">###LABEL_TIMESLOT_TIME###</th>
+
+		</tr>
+	</thead>
+	<tbody>
+		<!-- ###SINGLE_TIMESLOT### -->
+		<tr>
+			<td>###TIMESLOT_DATE###</td>
+			<td>###TIMESLOT_TIME###</td>
+
+		</tr>
+		<!-- ###SINGLE_TIMESLOT### -->
+
+	</tbody>
+</table>
+
+
+
+        </div>
+		<!-- ###FIELD_WRAPPER_TIMESLOTS### -->
+
+
+
+		<div class="col_block clearfix">
+
+            <h3>Kosten &amp; Zahlung</h3>
+
+			<table>
+
+
+            	  <!-- ###FIELD_WRAPPER_PRICE_REGULAR### -->
+				<tr>
+            		<td><strong>Preis:</strong></td>
+            		<td width="10"></td>
+            		<td>###PRICE_REGULAR### zzgl. MwSt.</td>
+            	</tr>
+            	<tr>
+            		<td colspan="3" height="5"></td>
+            	</tr>
+
+				<!-- ###FIELD_WRAPPER_PRICE_REGULAR### -->
+
+
+				<!-- ###FIELD_WRAPPER_ADDITIONAL_INFORMATION### -->
+				<tr>
+            		<td></td>
+            		<td width="10"></td>
+            		<td>###ADDITIONAL_INFORMATION### </td>
+            	</tr>
+            	<tr>
+            		<td colspan="3" height="5"></td>
+            	</tr>
+				<!-- ###FIELD_WRAPPER_ADDITIONAL_INFORMATION### -->
+
+
+            	<!-- ###FIELD_WRAPPER_PAYMENTMETHODS### -->
+            	<tr>
+            		<td valign="top"><strong>###LABEL_PAYMENTMETHODS###</strong></td>
+            		<td width="10"></td>
+            		<td><!-- ###SINGLE_PAYMENT_METHOD### -->
+	###PAYMENT_METHOD###
+	<!-- ###SINGLE_PAYMENT_METHOD### --></td>
+            	</tr>
+            	<!-- ###FIELD_WRAPPER_PAYMENTMETHODS### -->
+            </table>
+
+
+
+<!-- ###FIELD_WRAPPER_PRICE_EARLYBIRD_REGULAR### --><p><strong>###LABEL_PRICE_EARLYBIRD_REGULAR###</strong></p>
+<p>###PRICE_EARLYBIRD_REGULAR### (###MESSAGE_EARLYBIRD_PRICE_REGULAR###)</p>
+
+<!-- ###FIELD_WRAPPER_PRICE_EARLYBIRD_REGULAR### --><!-- ###FIELD_WRAPPER_PRICE_EARLYBIRD_SPECIAL### --><h3>###LABEL_PRICE_EARLYBIRD_SPECIAL###</h3>
+<p>###PRICE_EARLYBIRD_SPECIAL### (###MESSAGE_EARLYBIRD_PRICE_SPECIAL###)</p>
+
+<!-- ###FIELD_WRAPPER_PRICE_EARLYBIRD_SPECIAL### --><!-- ###FIELD_WRAPPER_PRICE_BOARD_REGULAR### --><h3>###LABEL_PRICE_BOARD_REGULAR###</h3>
+<p>###PRICE_BOARD_REGULAR###</p>
+
+<!-- ###FIELD_WRAPPER_PRICE_BOARD_REGULAR### --><!-- ###FIELD_WRAPPER_PRICE_SPECIAL### --><h3>###LABEL_PRICE_SPECIAL###</h3>
+<p>###PRICE_SPECIAL###</p>
+
+<!-- ###FIELD_WRAPPER_PRICE_SPECIAL### --><!-- ###FIELD_WRAPPER_PRICE_BOARD_SPECIAL### --><h3>###LABEL_PRICE_BOARD_SPECIAL###</h3>
+<p>###PRICE_BOARD_SPECIAL###</p>
+
+<!-- ###FIELD_WRAPPER_PRICE_BOARD_SPECIAL### -->
+
+
+
+
+<!--
+           <!-- ###FIELD_WRAPPER_VACANCIES### -->
+<p><strong>###LABEL_VACANCIES###</strong></p>
+<p>###VACANCIES###</p>
+
+<!-- ###FIELD_WRAPPER_VACANCIES### -->
+-->
+<!-- ###FIELD_WRAPPER_LIST_REGISTRATIONS### --><h3>###LABEL_LIST_REGISTRATIONS###</h3>
+<p>###LIST_REGISTRATIONS###</p>
+
+<!-- ###FIELD_WRAPPER_LIST_REGISTRATIONS### -->
+        </div>
+
+
+
+<!-- ###FIELD_WRAPPER_REQUIREMENTS### -->
+	<div class="col_block clearfix">
+		<h3>Voraussetzungen</h3>
+<strong>###LABEL_REQUIREMENTS###</strong>
+<ul>
+	<!-- ###SINGLE_REQUIREMENT### -->
+	<li>###REQUIREMENT_TITLE###</li>
+	<!-- ###SINGLE_REQUIREMENT### -->
+</ul>
+</div>
+<!-- ###FIELD_WRAPPER_REQUIREMENTS### -->
+<!-- ###FIELD_WRAPPER_DEPENDENCIES### -->
+<div class="col_block clearfix">
+		<h3>Folgekurse</h3>
+<strong>###LABEL_DEPENDENCIES###</strong>
+<ul>
+	<!-- ###SINGLE_DEPENDENCY### -->
+	<li>###DEPENDENCY_TITLE###</li>
+	<!-- ###SINGLE_DEPENDENCY### -->
+</ul>
+</div>
+<!-- ###FIELD_WRAPPER_DEPENDENCIES### -->
+
+
+
+
+
+
+
+
+		<!-- ###FIELD_WRAPPER_SPEAKERS### -->
+		<div class="col_block clearfix">
+		<h3>Kursleitung</h3>
+<dl style="height:120px;overflow:visible">###SPEAKERS###</dl>
+<div class="clearfix" style="clear:both"></div>
+</div>
+<!-- ###FIELD_WRAPPER_SPEAKERS### -->
+
+
+
+
+
+
+
+
+        	<!-- ###FIELD_WRAPPER_LANGUAGE### --><div class="col_block clearfix">
+        	<h3>Weitere Informationen</h3><strong>###LABEL_LANGUAGE###</strong>
+<p>###LANGUAGE###</p>
+<!-- ###FIELD_WRAPPER_DEADLINE_REGISTRATION### --><strong>###LABEL_DEADLINE_REGISTRATION###</strong>
+<p>###DEADLINE_REGISTRATION###</p>
+
+<!-- ###FIELD_WRAPPER_DEADLINE_REGISTRATION### -->
+</div>
+<!-- ###FIELD_WRAPPER_LANGUAGE### -->
+
+
+
+
+
+      </div>
+
+
+	<div style="clear:both;height:1px;width:100%"></div>
+      <div class="" >
+<!-- ###FIELD_WRAPPER_DESCRIPTION### -->###DESCRIPTION###
+<!-- ###FIELD_WRAPPER_DESCRIPTION### -->
+
+<!-- ###FIELD_WRAPPER_CONFIRMED### --><!-- ###FIELD_WRAPPER_CONFIRMED### -->
+<!-- ###FIELD_WRAPPER_CATEGORY### -->
+<div style="display:none">
+<span class="seminars_label_category">###LABEL_CATEGORY###: </span>
+<ul class="seminars_category_list">
+
+<!-- ###SINGLE_CATEGORY### -->
+	<li> / ###CATEGORY_TITLE### </li>
+<!-- ###SINGLE_CATEGORY### -->
+</ul>
+</div>
+<!-- ###FIELD_WRAPPER_CATEGORY### -->
+</div>
+
+
+
+
+
+
+
+
+<div class="clearfix" style="margin-top:0;">
+<!-- ###FIELD_WRAPPER_REGISTRATION### -->
+<div>
+<table width="100%" id="seminars_button_row">
+	<tr>
+		<td>
+		<span style="text-align:left">###BACKLINK###<span>
+		</td>
+		<td>
+		 <div style="text-align:right">
+
+
+		<span class="seminars_anmelden" style="display:inline-block;text-align:left;float:right">###REGISTRATION###</span>
+</div>
+		</td>
+	</tr>
+</table>
+
+<script>
+	jQuery(document).ready(function(){
+		jQuery.urlParam = function(name){
+			var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+		    if(results && results.length > 1){
+		    return results[1] || 0;
+		    }else{
+		    	return 0;
+			}
+		}
+
+		if(jQuery.urlParam('nobooking') == 1){
+			jQuery('#seminars_button_row').hide();
+		}
+
+		jQuery('#place_cell dd').html(jQuery('#place_cell dd').html().replace(/,/g, "<br />"));
+
+	});
+
+
+	jQuery(window).load(function() {
+
+		jQuery('.columns_block_seminar').each(function(){
+			jQuery(this).find('.col_block').css('margin-bottom','10px').equalHeights();
+		});
+
+	});
+
+</script>
+
+
+
+</div>
+<div style="clear:both"></div>
+<!-- ###FIELD_WRAPPER_REGISTRATION### -->
+</div>
+
+
+
+
+</div>
+</div>
+<!-- ###SINGLE_VIEW###  -->
+
+<!-- ###OTHERDATES_VIEW### -->
+<div class="seminars_otherdates">
+<!-- ###FIELD_WRAPPER_OTHERDATES### -->
+<div class="col_block clearfix" style="width:100%;">
+<h3>###LABEL_LIST_OTHERDATES###</h3>
+###TABLE_OTHERDATES###
+</div>
+<!-- ###FIELD_WRAPPER_OTHERDATES### -->
+</div>
+<!-- ###OTHERDATES_VIEW### -->
+
+<!-- ###EVENTSNEXTDAY_VIEW### -->
+<!-- ###FIELD_WRAPPER_EVENTSNEXTDAY### --><h3>###LABEL_EVENTSNEXTDAY###</h3>
+###TABLE_EVENTSNEXTDAY###
+<!-- ###FIELD_WRAPPER_EVENTSNEXTDAY### -->
+<!-- ###EVENTSNEXTDAY_VIEW### -->
+
+<!-- ###BACK_VIEW### -->
+
+<!-- ###BACK_VIEW### -->
+
+
+<!-- ###PLACE_LIST_ITEM### -->
+<dd>###PLACE_ITEM_DESCRIPTION###</dd>
+<!-- ###PLACE_LIST_ITEM### -->
+
+
+<!-- ###PLACE_LIST_COMPLETE### -->
+<dl>###PLACE_LIST_CONTENT###</dl>
+<!-- ###PLACE_LIST_COMPLETE### -->
+
+
+<!-- ###PLACE_LIST_EMPTY### -->
+<p>###MESSAGE_WILL_BE_ANNOUNCED###</p>
+<!-- ###PLACE_LIST_EMPTY### -->
+
+
+<!-- ###SPEAKER_LIST_ITEM### -->
+<dt>###SPEAKER_ITEM_TITLE###</dt>
+<dd>###SPEAKER_ITEM_DESCRIPTION###</dd>
+<!-- ###SPEAKER_LIST_ITEM### -->
+
+<!-- ###ORGANIZER_LIST_ITEM### -->
+<dt>###ORGANIZER_ITEM_TITLE###</dt>
+###ORGANIZER_ITEM_DESCRIPTION###
+<!-- ###ORGANIZER_LIST_ITEM### -->
+
+<!-- ###ORGANIZER_DESCRIPTION_ITEM### -->
+<dd>###ORGANIZER_DESCRIPTION_CONTENT###</dd>
+<!-- ###ORGANIZER_DESCRIPTION_ITEM### -->
+
+<!-- ###ERROR_VIEW### -->
+<p ###CLASS_ERROR###>###ERROR_TEXT###</p>
+<script>
+jQuery(document).ready(function(){
+	jQuery('.tx-seminars-pi1-selectorwidget').hide();
+});
+</script>
+
+<!-- ###ERROR_VIEW### -->
+
+
+<!-- ###REGISTRATION_HEAD### -->
+<h1>###LABEL_REGISTRATION###: <!-- ###REGISTRATION_WRAPPER_UID### -->###LABEL_UID### ###UID###, <!-- ###REGISTRATION_WRAPPER_UID### --><!-- ###REGISTRATION_WRAPPER_ACCREDITATION_NUMBER### -->###LABEL_ACCREDITATION_NUMBER### ###ACCREDITATION_NUMBER###, <!-- ###REGISTRATION_WRAPPER_ACCREDITATION_NUMBER### --> <!-- ###REGISTRATION_WRAPPER_TITLE### -->###TITLE###<!-- ###REGISTRATION_WRAPPER_TITLE### --><!-- ###REGISTRATION_WRAPPER_DATE### -->, ###DATE###<!-- ###REGISTRATION_WRAPPER_DATE### --></h1>
+<!-- ###WRAPPER_ERROR### --><p ###CLASS_ERROR###>###ERROR_TEXT###</p>
+
+<!-- ###WRAPPER_ERROR### -->
+<!-- ###REGISTRATION_HEAD### -->
+
+
+<!-- ###REGISTRATION_BOTTOM### -->
+<div class="tx-seminars-pi1-clear"></div>
+<!-- ###REGISTRATION_BOTTOM### -->
+
+
+<!-- ###REGISTRATION_THANKYOU### -->
+<p>###LABEL_THANKYOU###</p>
+<!-- ###REGISTRATION_THANKYOU### -->
+
+
+<!-- ###REGISTRATIONS_LIST_VIEW### -->
+<h1>###LABEL_LIST_REGISTRATIONS###: ###TITLE###</h1>
+
+<!-- ###WRAPPER_ERROR### -->
+<p ###CLASS_ERROR###>###ERROR_TEXT###</p>
+<!-- ###WRAPPER_ERROR### -->
+
+<!-- ###WRAPPER_REGISTRATIONS_LIST_MESSAGE### -->
+<p>###MESSAGE_NO_REGISTRATIONS###</p>
+<!-- ###WRAPPER_REGISTRATIONS_LIST_MESSAGE### -->
+
+<!-- ###WRAPPER_REGISTRATIONS_LIST_TABLE### -->
+<table summary="###LABEL_REGISTRATIONS###">
+	<thead>
+		<!-- ###WRAPPER_REGISTRATIONS_LIST_TABLE_HEAD### -->
+		<tr>
+			<!-- ###WRAPPER_REGISTRATIONS_LIST_TABLE_HEAD_ITEM### -->
+			<th scope="col">###REGISTRATIONS_LIST_HEADER###</th>
+			<!-- ###WRAPPER_REGISTRATIONS_LIST_TABLE_HEAD_ITEM### -->
+		</tr>
+		<!-- ###WRAPPER_REGISTRATIONS_LIST_TABLE_HEAD### -->
+	</thead>
+	<tbody>
+		<!-- ###WRAPPER_REGISTRATIONS_LIST_TABLE_BODY### -->
+		<tr>
+			###REGISTRATIONS_LIST_ROW###
+		</tr>
+		<!-- ###WRAPPER_REGISTRATIONS_LIST_TABLE_BODY### -->
+	</tbody>
+</table>
+<!-- ###WRAPPER_REGISTRATIONS_LIST_TABLE### -->
+
+<!-- ###REGISTRATIONS_LIST_VIEW### -->
+
+<!-- ###WRAPPER_REGISTRATIONS_LIST_TABLE_BODY_ITEM### -->
+<td>###REGISTRATIONS_LIST_ITEM###</td>
+<!-- ###WRAPPER_REGISTRATIONS_LIST_TABLE_BODY_ITEM### -->
+
+<!-- ###REGISTRATION_CONFIRMATION_FEUSER### -->
+<h3>###LABEL_YOUR_USER_DATA###</h3>
+<p>
+###USER_COMPANY###<br />
+###USER_NAME###<br />
+
+###USER_ADDRESS###, ###USER_ZIP### ###USER_CITY###<br />
+###USER_COUNTRY###<br />
+###USER_TELEPHONE###<br />
+###USER_EMAIL###<br />
+</p>
+<!-- ###REGISTRATION_CONFIRMATION_FEUSER### -->
+
+<!-- ###REGISTRATION_CONFIRMATION_BILLING### -->
+
+<p><strong>###LABEL_BILLING_ADDRESS###</strong><br />
+###REGISTRATION_BILLING_ADDRESS###
+</p>
+<!-- ###REGISTRATION_CONFIRMATION_BILLING### -->
+
+<!-- ###REGISTRATION_CONFIRMATION_DATA### -->
+<p><strong>###REGISTRATION_DATA_HEADING###</strong><br />
+<p>
+###REGISTRATION_DATA_BODY###
+</p>
+<!-- ###REGISTRATION_CONFIRMATION_DATA### -->
+
+<!-- ###VIEW_CATEGORIES### -->
+<div###CLASS_CATEGORYLIST###>
+	<p>###LABEL_WE_OFFER_EVENTS_IN_CATEGORIES###</p>
+	<ul>###ALL_CATEGORY_ITEMS###</ul>
+</div>
+<!-- ###VIEW_CATEGORIES### -->
+
+<!-- ###SINGLE_CATEGORY_ITEM### -->
+	<li>###CATEGORY_TITLE###</li>
+<!-- ###SINGLE_CATEGORY_ITEM### -->
+
+<!-- ###VIEW_NO_CATEGORIES### -->
+<div###CLASS_CATEGORYLIST###>
+	<p>###LABEL_NO_CATEGORIES###</p>
+</div>
+<!-- ###VIEW_NO_CATEGORIES### -->
+
+<!-- ###VIEW_HEADLINE### -->
+	<h2>###TITLE_AND_DATE###</h2>
+<!-- ###VIEW_HEADLINE### -->
+
+<!-- ###MAIL_PUBLISH_EVENT### -->
+###LABEL_PUBLISH_EVENT_TEXT###
+
+###LABEL_PUBLISH_EVENT_OVERVIEW###
+###PUBLISH_EVENT_TITLE###<!-- ###WRAPPER_PUBLISH_EVENT_DATE### -->, ###PUBLISH_EVENT_DATE###<!-- ###WRAPPER_PUBLISH_EVENT_DATE### -->
+###PUBLISH_EVENT_DESCRIPTION###
+
+###LABEL_PUBLISH_EVENT_LINK###
+<###PUBLISH_EVENT_LINK###>
+
+###LABEL_PUBLISH_EVENT_NOTICE###
+<!-- ###MAIL_PUBLISH_EVENT### -->
+</body>
+</html>
